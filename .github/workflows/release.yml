@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create release structure
+        run: |
+          mkdir -p release/addons/debugzone
+          cp debugzone.lua release/addons/debugzone/
+
+      - name: Create release zip
+        run: |
+          cd release
+          zip -r ../debugzone.zip addons/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: debugzone
+          path: debugzone.zip
